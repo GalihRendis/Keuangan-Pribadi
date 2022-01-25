@@ -13,8 +13,10 @@ class CreateKeuangansTable extends Migration
      */
     public function up()
     {
-        Schema::create('keuangans', function (Blueprint $table) {
+        Schema::create('keuangan', function (Blueprint $table) {
             $table->id();
+            $table->string('asal_uang_masuk');
+            $table->double('uang_masuk');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateKeuangansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('keuangans');
+        Schema::dropIfExists('keuangan');
     }
 }

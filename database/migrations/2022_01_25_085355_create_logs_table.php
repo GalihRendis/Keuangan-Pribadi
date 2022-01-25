@@ -15,6 +15,9 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
+            $table->smallInteger('bulan_tahun')->unique();
+            $table->double('uang_masuk');
+            $table->double('uang_keluar');
             $table->timestamps();
         });
     }

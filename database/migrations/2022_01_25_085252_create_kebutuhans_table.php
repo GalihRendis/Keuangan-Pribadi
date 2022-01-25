@@ -13,10 +13,12 @@ class CreateKebutuhansTable extends Migration
      */
     public function up()
     {
-        Schema::create('kebutuhans', function (Blueprint $table) {
+        Schema::create('kebutuhan', function (Blueprint $table) {
             $table->id();
             $table->string('nama_barang');
-            $table->
+            $table->integer('jumlah');
+            $table->double('harga');
+            $table->double('total');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateKebutuhansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kebutuhans');
+        Schema::dropIfExists('kebutuhan');
     }
 }

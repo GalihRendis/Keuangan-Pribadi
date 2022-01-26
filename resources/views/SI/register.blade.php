@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>
-        @yield('title', 'KP - Login')
+        @yield('title', 'KP - Register')
     </title>
     <!-- Favicon -->
     <!-- <link rel="shortcut icon" href="{{ url('assets/img/Logo/Logo2.png') }}" type="image/png"> -->
@@ -58,27 +58,42 @@
 </div>
 <!-- Page content -->
 <div class="container mt--8 pb-5">
-    @if(session('error'))
-     <div class="row justify-content-center">
-      <div class="col-lg-5 col-md-7">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <span class="alert-inner--text">Username / password salah</span>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
+    <div class="row justify-content-center">
+        @if($errors->any())
+            <div class="col-lg-5 col-md-7">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="col-lg-12">
+                        <span class="alert-inner--text">Error Message</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @foreach ($errors->all() as $error)
+                        <div class="col-lg-12">
+                            <span class="alert-inner--text">{{ $error }}</span>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
-    @endif
     <div class="row justify-content-center">
     <div class="col-lg-5 col-md-6">
         <div class="card border-0 mb-0" style="background-color: #e7e7fa">
         <div class="card-body px-lg-5 py-lg-5">
             <div class="text-center text-muted mb-4">
-            <h3>Form Login</h3>
+            <h3>Form Register</h3>
             </div>
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('register') }}">
             @csrf
+            <div class="form-group mb-3">
+                <div class="input-group input-group-merge input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" placeholder="Nama" value="{{ old('name') }}" type="text" name="name" required="">
+                </div>
+            </div>
             <div class="form-group mb-3">
                 <div class="input-group input-group-merge input-group-alternative">
                 <div class="input-group-prepend">
@@ -92,7 +107,15 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password" name="password">
+                <input class="form-control" placeholder="Password" type="password" name="password" id="password" data-toggle="tooltip" data-placement="right" title="Password Kombinasi Huruf Besar, Huruf Kecil, Angka, Spesial karakter">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-merge input-group-alternative">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" placeholder="Confirm Password" type="password" name="password_confirmation" required autocomplete="new-password">
                 </div>
             </div>
             {{-- <div class="form-group">
@@ -100,10 +123,10 @@
             </div> --}}
 
             <div class="text-center">
-                <button type="submit" class="btn btn-block" style="color: white; background-color: #ec2c74">Sign in</button>
+                <button type="submit" class="btn btn-block" style="color: white; background-color: #ec2c74">Sign up</button>
             </div>
             <div class="form-group mt-3">
-                <span><p>Belum punya akun ?? <b><a href="{{ route('register.index') }}">Sign Up</a></b></p></span>
+                <span><p>Udah punya akun ?? <b><a href="{{ route('login.index') }}">Login</a></b></p></span>
             </div>
             </form>
         </div>
@@ -142,6 +165,12 @@
 <script src="{{url('assets/vendor/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{url('assets/vendor/quill/dist/quill.min.js') }}"></script>
 @stack('tambahanJS')
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    // $('#password').tooltip({'data-placement':"right",'trigger':'focus', 'title': 'Password Kombinasi Huruf Besar, Huruf Kecil, Angka, Spesial karakter'});
+</script>
 <!-- Argon JS -->
 <script src="{{url('assets/js/argon.js?v=1.1.0') }}"></script>
 <script src="{{url('assets/js/custom.js?v=1.0.0') }}"></script>

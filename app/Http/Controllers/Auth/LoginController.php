@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -47,7 +48,7 @@ class LoginController extends Controller
         if(Auth::check()){
             return redirect()->route('SI.dashboard');
         }
-        return view('SI.index');
+        return view('SI.login');
     }
 
     public function attemptLogin(Request $request){
@@ -67,11 +68,22 @@ class LoginController extends Controller
     }
 
     public function attemptRegister(Request $request){
-        $request->validate([
+        // $request->validate([
+        //     'name' => ['required'],
+        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        //     'password' => ['required', 'string', 'min:8','confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
+        // ]);
+        $v = Validator::make($request->all(), [
             'name' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8','confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
         ]);
+
+        if ($v->fails())
+        {
+            // dd($v->errors());
+            return redirect()->back()->withErrors($v->errors());
+        }
           // dd($request->all());
         User::create([
             'name' => $request->name,
@@ -83,9 +95,9 @@ class LoginController extends Controller
             'email' => $request->email ?? null,
             'password' => $request->password ?? null])){
 
-            return redirect()->route('home');
+            return redirect()->route('SI.dashboard');
         }
-        return redirect()->route('login')
+        return redirect()->route('register.index')
         ->with('error','Email-Address Or Password Are Wrong.');
     }
 
@@ -95,6 +107,9 @@ class LoginController extends Controller
     }
 
     public function viewRegister() {
-       return redirect()->route('home');
+        if(Auth::check()){
+            return redirect()->route('SI.dashboard');
+        }
+        return view('SI.register');
     }
 }

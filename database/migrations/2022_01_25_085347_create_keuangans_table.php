@@ -15,6 +15,8 @@ class CreateKeuangansTable extends Migration
     {
         Schema::create('keuangan', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('users');
             $table->string('asal_uang_masuk');
             $table->double('uang_masuk');
             $table->timestamps();

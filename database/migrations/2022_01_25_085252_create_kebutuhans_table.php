@@ -15,6 +15,8 @@ class CreateKebutuhansTable extends Migration
     {
         Schema::create('kebutuhan', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('users');
             $table->string('nama_barang');
             $table->integer('jumlah');
             $table->double('harga');

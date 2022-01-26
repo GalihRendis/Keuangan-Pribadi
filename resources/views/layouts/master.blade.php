@@ -76,11 +76,7 @@
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
           <!-- Nav items -->
           <ul class="navbar-nav">
-            @if(Auth::user()->role===1)
-                @include('layouts.component.admin')
-            @else
-                @include('layouts.component.user')
-            @endif
+            @include('layouts.component.navbar')
           </ul>
         </div>
       </div>
